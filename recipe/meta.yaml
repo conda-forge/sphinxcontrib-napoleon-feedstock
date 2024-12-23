@@ -5,24 +5,27 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/s/sphinxcontrib-napoleon/sphinxcontrib-napoleon-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/s/sphinxcontrib-napoleon/sphinxcontrib-napoleon-{{ version }}.tar.gz
   sha256: 407382beed396e9f2d7f3043fad6afda95719204a1e1a231ac865f40abcbfcf8
 
 build:
-  number: 0
+  number: 1
   noarch: python
-  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
-    - python
+    - python {{ python_min }}
+    - setuptools
     - pip
   run:
-    - python
+    - python >={{ python_min }}
     - pockets >=0.3
     - six >=1.5.2
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - sphinxcontrib
     - sphinxcontrib.napoleon
